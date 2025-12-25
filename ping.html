@@ -2,46 +2,93 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>Bot KeepAlive</title>
+  <title>Bot ダッシュボード</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
-      font-family: sans-serif;
-      background: #111;
-      color: #0f0;
-      text-align: center;
-      padding-top: 50px;
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background: #121212;
+      color: #00ff88;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+    h1 {
+      font-size: 1.8em;
+      margin-bottom: 10px;
+    }
+    .status {
+      font-size: 1.2em;
+      margin-bottom: 20px;
+    }
+    .bot-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+      max-width: 400px;
+    }
+    .bot {
+      background: #1e1e1e;
+      border: 1px solid #00ff88;
+      border-radius: 8px;
+      padding: 10px;
+    }
+    .bot-name {
+      font-weight: bold;
+      font-size: 1.1em;
     }
     .log {
-      margin-top: 20px;
-      font-size: 14px;
-      color: #0f0;
-      white-space: pre-line;
+      font-size: 0.9em;
+      margin-top: 5px;
+      color: #ccc;
+    }
+    @media (max-width: 600px) {
+      h1 { font-size: 1.5em; }
+      .status { font-size: 1em; }
+      .bot-name { font-size: 1em; }
     }
   </style>
 </head>
 <body>
-  <h1>🔄 Bot KeepAlive</h1>
-  <p>このページを開いている間、Bot はスリープしません。</p>
+  <h1>🔄 Bot ダッシュボード</h1>
+  <div class="status" id="status">Ping 待機中...</div>
 
-  <div class="log" id="log">Ping 待機中...</div>
+  <div class="bot-list">
+    <div class="bot">
+      <div class="bot-name">Bot1</div>
+      <div class="log" id="log1">Ping 待機中...</div>
+    </div>
+    <div class="bot">
+      <div class="bot-name">Bot2</div>
+      <div class="log" id="log2">Ping 待機中...</div>
+    </div>
+  </div>
 
   <script>
     const url = "https://kaelu-discordbots.onrender.com/";
-    const log = document.getElementById("log");
+    const status = document.getElementById("status");
+    const log1 = document.getElementById("log1");
+    const log2 = document.getElementById("log2");
 
     function ping() {
       fetch(url)
         .then(() => {
           const time = new Date().toLocaleTimeString();
-          log.textContent = `✔ Ping 送信: ${time}`;
+          status.textContent = `✅ Bot 起動中（最終Ping: ${time}）`;
+          log1.textContent = `✔ Bot1 Ping 成功: ${time}`;
+          log2.textContent = `✔ Bot2 Ping 成功: ${time}`;
         })
         .catch(() => {
           const time = new Date().toLocaleTimeString();
-          log.textContent = `❌ Ping 失敗: ${time}`;
+          status.textContent = `❌ Bot 応答なし（最終Ping: ${time}）`;
+          log1.textContent = `✖ Bot1 Ping 失敗: ${time}`;
+          log2.textContent = `✖ Bot2 Ping 失敗: ${time}`;
         });
     }
 
-    // 30秒ごとに Ping
     ping();
     setInterval(ping, 30000);
   </script>

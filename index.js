@@ -1,3 +1,10 @@
+//サーバー上実行
+
+import express from "express";
+const app = express();
+app.get("/", (req, res) => res.send("Bot is alive"));
+app.listen(3000);
+
 //=========================
 // 必要モジュール
 //=========================
@@ -335,4 +342,5 @@ config.bots.forEach(async (botConfig) => {
   });
 
 });
+
 

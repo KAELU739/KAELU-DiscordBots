@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Bot KeepAlive</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #111;
+      color: #0f0;
+      text-align: center;
+      padding-top: 50px;
+    }
+    .log {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #0f0;
+      white-space: pre-line;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔄 Bot KeepAlive</h1>
+  <p>このページを開いている間、Bot はスリープしません。</p>
+
+  <div class="log" id="log">Ping 待機中...</div>
+
+  <script>
+    const url = "https://kaelu-discordbots.onrender.com"; // ← Render の URL を入れる
+    const log = document.getElementById("log");
+
+    function ping() {
+      fetch(url)
+        .then(() => {
+          const time = new Date().toLocaleTimeString();
+          log.textContent = `✔ Ping 送信: ${time}`;
+        })
+        .catch(() => {
+          const time = new Date().toLocaleTimeString();
+          log.textContent = `❌ Ping 失敗: ${time}`;
+        });
+    }
+
+    // 30秒ごとに Ping
+    ping();
+    setInterval(ping, 30000);
+  </script>
+</body>
+</html>

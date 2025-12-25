@@ -1,12 +1,21 @@
-//サーバー上実行
-
+//=========================
+// KeepAlive（Render 用）
+//=========================
 import express from "express";
 const app = express();
-app.get("/", (req, res) => res.send("Bot is alive"));
-app.listen(3000);
+
+app.get("/", (req, res) => {
+  res.send("Bot is alive");
+});
+
+// Render は process.env.PORT を必ず使用する
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`🌐 KeepAlive server running on port ${PORT}`);
+});
 
 //=========================
-// 必要モジュール
+// Discord Bot 必要モジュール
 //=========================
 import { Client, GatewayIntentBits, Collection, EmbedBuilder } from "discord.js";
 import fs from "fs";
@@ -31,7 +40,7 @@ const intentMap = {
 };
 
 //=========================
-// Bot 起動処理
+// Bot 起動処理（複数 Bot）
 //=========================
 config.bots.forEach(async (botConfig) => {
 
@@ -82,7 +91,7 @@ config.bots.forEach(async (botConfig) => {
   });
 
   //=========================
-  // Bot2: スレッド監視
+  // スレッド監視
   //=========================
   client.on("threadCreate", async (thread) => {
     if (!botConfig.threadWatch) return;
@@ -99,7 +108,7 @@ config.bots.forEach(async (botConfig) => {
   });
 
   //=========================
-  // Bot2: VC名自動更新
+  // VC名自動更新
   //=========================
   client.once("clientReady", () => {
     if (!botConfig.activeVoice) return;
@@ -132,10 +141,9 @@ config.bots.forEach(async (botConfig) => {
   });
 
   //=========================
-  // Bot2: 固定メッセージ
+  // 固定メッセージ
   //=========================
   if (botConfig.keepLatestMessage) {
-
     const latestMsgPath = "./latestMessage.json";
     let latestMsg = { messageId: null };
 
@@ -180,10 +188,9 @@ config.bots.forEach(async (botConfig) => {
   }
 
   //=========================
-  // Bot2: NGワード検知（Embed）
+  // NGワード検知
   //=========================
   if (botConfig.wordDetect) {
-
     const wordsPath = "./words.json";
     const detectLogPath = "./detectLog.json";
 
@@ -235,10 +242,9 @@ config.bots.forEach(async (botConfig) => {
   }
 
   //=========================
-  // Bot2: メッセージ編集ログ（Embed）
+  // メッセージ編集ログ
   //=========================
   if (botConfig.messageLog) {
-
     const logPath = "./messageLog.json";
     let logData = { edited: [], deleted: [] };
 
@@ -285,10 +291,9 @@ config.bots.forEach(async (botConfig) => {
   }
 
   //=========================
-  // Bot2: メッセージ削除ログ（Embed）
+  // メッセージ削除ログ
   //=========================
   if (botConfig.messageLog) {
-
     const logPath = "./messageLog.json";
     let logData = { edited: [], deleted: [] };
 
@@ -333,7 +338,7 @@ config.bots.forEach(async (botConfig) => {
   }
 
   //=========================
-  // Render対応：ログイン処理（これが正しい）
+  // Bot ログイン
   //=========================
   const token = process.env[botConfig.tokenEnv];
 
@@ -342,5 +347,4 @@ config.bots.forEach(async (botConfig) => {
   });
 
 });
-
 

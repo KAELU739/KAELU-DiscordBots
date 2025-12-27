@@ -1,0 +1,52 @@
+# ============================================
+#  Paper - paper-global.yml
+#  JE/BE クロスサーバー最適化版
+# ============================================
+
+settings:
+  verbose: false
+  load-permissions-yml-before-plugins: true
+  region-file-cache-size: 256
+
+timings:
+  enabled: false
+  verbose: false
+
+chunk-loading:
+  min-load-radius: 2
+  max-concurrent-sends: 2
+  autoconfig-send-distance: true
+  target-player-chunk-send-rate: 80
+  global-max-chunk-send-rate: -1
+
+chunk-system:
+  gen-parallelism: default
+  io-threads: -1
+  worker-threads: -1
+
+collisions:
+  enable-player-collisions: true
+
+unsupported-settings:
+  allow-headless-pistons: false
+  allow-permanent-block-break-exploits: false
+
+messages:
+  kick:
+    authentication-servers-down: "認証サーバーに接続できません。しばらくしてから再度お試しください。"
+
+world-settings:
+  default:
+    seed-based-feature-placement: true
+    optimize-explosions: true
+    use-faster-eigencraft-redstone: true
+    keep-spawn-loaded: true
+    keep-spawn-loaded-range: 8
+    armor-stands-do-collision-entity-lookups: false
+    disable-teleportation-suffocation-check: false
+    fix-items-merging-through-walls: true
+    prevent-moving-into-unloaded-chunks: true
+    allow-vehicle-collisions: true
+    allow-player-cramming-damage: false
+    allow-piston-duplication: false
+    allow-unsafe-end-portal-spawns: false
